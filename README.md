@@ -1,4 +1,4 @@
 JJ25-Main
 =========
 
-The Packages that for the internal structure of the JJ25 project.
+The Packages that contain the internal structure of the JJ25 project.
