@@ -4,10 +4,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import info.lun4rsoft.jj25.files.JazzFile;
 import info.lun4rsoft.jj25.utils.DataConv;
 import info.lun4rsoft.jj25.zlib.FukkatsuZLib;
 
-public class RawTileset24 {
+public class RawTileset24 extends JazzFile {
 	
 	//version identifiers.
 	public static final int VER_23 = 0x200;
@@ -23,13 +24,13 @@ public class RawTileset24 {
 	private int version;
 	private boolean valid;
 	
-	private int error;
+	private RawTilesetErrorcode error;
 	
 	public RawTileset24()
 	{
 		super();
 		
-		error = 0;
+		error = RawTilesetErrorcode.OK;
 		valid = false;
 	}
 	
@@ -37,10 +38,10 @@ public class RawTileset24 {
 	{
 		super();
 		
-		error = 0;
+		error = RawTilesetErrorcode.OK;
 		valid = false;
 		
-		ReadfromFile(filename);
+		ReadFromFile(filename);
 		
 	}
 	
@@ -53,10 +54,9 @@ public class RawTileset24 {
 	 * 4: Unexpected Header
 	 * 5: Unable to set a lock (only on write)
 	 */
-	public synchronized boolean ReadfromFile(String filename)
+	public boolean ReadFromFile(String filename)
 	{
 		setValid(false);
-		setError(0);
 		try {
 			FileInputStream input_str = new FileInputStream(filename);
 			
@@ -72,7 +72,7 @@ public class RawTileset24 {
 			String magic = DataConv.BytesToString(header, 180, 4);
 			if (!magic.equals("TILE"))
 			{
-				setError(4);
+				setError(RawTilesetErrorcode.FAULTYHEADER);
 				System.out.println(magic);
 				
 				return false;
@@ -148,21 +148,43 @@ public class RawTileset24 {
 			input_str.close();
 		} catch (FileNotFoundException e) {
 			setValid(false);
-			setError(1);
+			setError(RawTilesetErrorcode.FILENOTFOUND);
 			return false;
 			
 		} catch (IOException e) {
 			setValid(false);
-			setError(2);
+			setError(RawTilesetErrorcode.IOEXCEPTION);
 			return false;
 		}
 		
 		setValid(true);
 		return true;
 	}
+	
+	@Override
+	public boolean ReadFromFilePool(String name, boolean checkCached) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean WriteToFile(String fullpath) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean WriteToFilePool(String name, boolean toCached) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 	public synchronized int[] getHeader() {
 		return header;
+	}
+	
+	public synchronized int[] getHeaderCopy() {
+		return header.clone();
 	}
 
 	public synchronized void setHeader(int[] header) {
@@ -172,6 +194,10 @@ public class RawTileset24 {
 	public synchronized int[] getBuffer1() {
 		return buffer1;
 	}
+	
+	public synchronized int[] getBuffer1Copy() {
+		return buffer1.clone();
+	}
 
 	public synchronized void setBuffer1(int[] buffer1) {
 		this.buffer1 = buffer1;
@@ -179,6 +205,10 @@ public class RawTileset24 {
 
 	public synchronized int[] getBuffer2() {
 		return buffer2;
+	}
+	
+	public synchronized int[] getBuffer2Copy() {
+		return buffer2.clone();
 	}
 
 	public synchronized void setBuffer2(int[] buffer2) {
@@ -188,6 +218,10 @@ public class RawTileset24 {
 	public synchronized int[] getBuffer3() {
 		return buffer3;
 	}
+	
+	public synchronized int[] getBuffer3Copy() {
+		return buffer3.clone();
+	}
 
 	public synchronized void setBuffer3(int[] buffer3) {
 		this.buffer3 = buffer3;
@@ -196,16 +230,24 @@ public class RawTileset24 {
 	public synchronized int[] getBuffer4() {
 		return buffer4;
 	}
+	
+	public synchronized int[] getBuffer4Copy() {
+		return buffer4.clone();
+	}
 
 	public synchronized void setBuffer4(int[] buffer4) {
 		this.buffer4 = buffer4;
 	}
 
 	public synchronized int getError() {
+		return error.ordinal();
+	}
+	
+	public synchronized RawTilesetErrorcode getErrorCode() {
 		return error;
 	}
 
-	public synchronized void setError(int error) {
+	public synchronized void setError(RawTilesetErrorcode error) {
 		this.error = error;
 	}
 
