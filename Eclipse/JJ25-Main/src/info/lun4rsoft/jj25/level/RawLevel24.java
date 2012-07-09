@@ -1,4 +1,4 @@
-package info.lun4rsoft.jj25.tileset;
+package info.lun4rsoft.jj25.level;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -8,7 +8,7 @@ import info.lun4rsoft.jj25.files.JazzFile;
 import info.lun4rsoft.jj25.utils.DataConv;
 import info.lun4rsoft.jj25.zlib.FukkatsuZLib;
 
-public class RawTileset24 extends JazzFile {
+public class RawLevel24 extends JazzFile {
 	
 	//version identifiers.
 	public static final int VER_23 = 0x200;
@@ -22,43 +22,30 @@ public class RawTileset24 extends JazzFile {
 	private int buffer4[];
 	
 	private int version;
+	
 	private boolean valid;
 	
-	private RawTilesetErrorcode error;
 	
-	public RawTileset24()
-	{
-		super();
-		
-		error = RawTilesetErrorcode.OK;
-		valid = false;
-	}
-	
-	public RawTileset24(String filename)
-	{
-		super();
-		
-		error = RawTilesetErrorcode.OK;
-		valid = false;
-		
-		ReadFromFile(filename);
-		
-	}
-	
-	//Error codes:
-	/*
-	 * 0: OK
-	 * 1: File not found
-	 * 2: IO Exception
-	 * 3: Empty File
-	 * 4: Unexpected Header
-	 * 5: Unable to set a lock (only on write)
-	 */
-	public boolean ReadFromFile(String filename)
+	public RawLevel24()
 	{
 		setValid(false);
+	}
+	
+	
+	//Error codes:
+		/*
+		 * 0: OK
+		 * 1: File not found
+		 * 2: IO Exception
+		 * 3: Empty File
+		 * 4: Unexpected Header
+		 * 5: Unable to set a lock (only on write)
+		 */
+	@Override
+	public boolean ReadFromFile(String fullpath) {
+		setValid(false);
 		try {
-			FileInputStream input_str = new FileInputStream(filename);
+			FileInputStream input_str = new FileInputStream(fullpath);
 			
 			//First, reading the header. This is always 262 bytes.
 			header = new int[262];
@@ -67,12 +54,11 @@ public class RawTileset24 extends JazzFile {
 				header[i] = input_str.read();
 			}
 			
-			
 			//Validate if the file is valid.
 			String magic = DataConv.BytesToString(header, 180, 4);
-			if (!magic.equals("TILE"))
+			if (!magic.equals("LEVL"))
 			{
-				setError(RawTilesetErrorcode.FAULTYHEADER);
+				//setError(RawTilesetErrorcode.FAULTYHEADER);
 				System.out.println(magic);
 				
 				return false;
@@ -144,21 +130,20 @@ public class RawTileset24 extends JazzFile {
 			
 			//Finally, close the file.
 			input_str.close();
+			
 		} catch (FileNotFoundException e) {
 			setValid(false);
-			setError(RawTilesetErrorcode.FILENOTFOUND);
+			//setError(RawTilesetErrorcode.FILENOTFOUND);
 			return false;
 			
 		} catch (IOException e) {
 			setValid(false);
-			setError(RawTilesetErrorcode.IOEXCEPTION);
+			//setError(RawTilesetErrorcode.IOEXCEPTION);
 			return false;
 		}
-		
-		setValid(true);
 		return true;
 	}
-	
+
 	@Override
 	public boolean ReadFromFilePool(String name, boolean checkCached) {
 		// TODO Auto-generated method stub
@@ -176,7 +161,8 @@ public class RawTileset24 extends JazzFile {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	
+	
 	public synchronized int[] getHeader() {
 		return header;
 	}
@@ -237,31 +223,30 @@ public class RawTileset24 extends JazzFile {
 		this.buffer4 = buffer4;
 	}
 
-	public synchronized int getError() {
-		return error.ordinal();
-	}
-	
-	public synchronized RawTilesetErrorcode getErrorCode() {
-		return error;
+	@Override
+	public int getError() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
-	public synchronized void setError(RawTilesetErrorcode error) {
-		this.error = error;
-	}
 
-	public synchronized int getVersion() {
-		return version;
-	}
-
-	public synchronized void setVersion(int version) {
-		this.version = version;
-	}
-
-	public synchronized boolean isValid() {
+	public boolean isValid() {
 		return valid;
 	}
 
-	public synchronized void setValid(boolean valid) {
+
+	public void setValid(boolean valid) {
 		this.valid = valid;
 	}
+
+
+	public int getVersion() {
+		return version;
+	}
+
+
+	public void setVersion(int version) {
+		this.version = version;
+	}
+
 }
