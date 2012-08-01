@@ -30,7 +30,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package info.lun4rsoft.jj25.zlib;
 import java.io.*;
 
-@SuppressWarnings("deprecation")
+@SuppressWarnings({ "deprecation", "javadoc" })
 public class GZIPOutputStream extends DeflaterOutputStream {
 
   public GZIPOutputStream(OutputStream out) throws IOException {

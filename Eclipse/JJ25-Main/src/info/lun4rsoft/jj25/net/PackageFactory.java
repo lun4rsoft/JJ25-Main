@@ -151,6 +151,13 @@ public class PackageFactory {
 		return msg;
 	}
 	
+	public byte[] makeDisconnectClientPackage(byte socketID,DisconnectReason24 reason, JazzNetVersion version)
+	{
+		byte msg[] = new byte[8];
+		
+		return msg;
+	}
+	
 	/**
 	 * Creates the UDP Checksum wanted by JJ2 1.24 and down. <br>
 	 *  

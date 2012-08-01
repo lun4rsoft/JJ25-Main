@@ -34,6 +34,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package info.lun4rsoft.jj25.zlib;
 
+@SuppressWarnings("javadoc")
 final public class JZlib{
   private static final String version="1.1.0";
   public static String version(){return version;}

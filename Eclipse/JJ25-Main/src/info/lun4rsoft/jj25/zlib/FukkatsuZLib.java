@@ -1,7 +1,25 @@
 package info.lun4rsoft.jj25.zlib;
 
+/**
+ * A class inplementing simple methods and helpers to compress and decompress ZLib compressed buffers,
+ * as used by JJ2. It uses the opensource JZlib project as it's backend, of which a slightly
+ * modified version is included in the info.lun4rsoft.jj25.zlib package.
+ * <p>
+ * For more info, check out the JZlib project at <a href="http://www.jcraft.com/jzlib/">http://www.jcraft.com/jzlib/</a>.
+ * </p>
+ * @author wKtK
+ * @version 1.2.1.0
+ */
 public class FukkatsuZLib {
 	
+	/**
+	 * Inflates a zlib compressed buffer of bytes back to the original content.
+	 * This uses the same compression all JJ1.24 and back use for levels, tilesets etc. 
+	 * @param buff The buffer containing the compressed data.
+	 * @param CSize The number of bytes in the compressed buffer.
+	 * @param USize The number of bytes in the decompressed buffer.
+	 * @return The original, decompressed/inflated data.
+	 */
 	@SuppressWarnings("deprecation")
 	public static int[] jj2ZLibDecompress(int[] buff, int CSize, int USize) {
 		int[] output = new int[USize];

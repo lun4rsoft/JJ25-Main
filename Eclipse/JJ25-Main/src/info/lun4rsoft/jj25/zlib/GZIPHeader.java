@@ -36,6 +36,7 @@ package info.lun4rsoft.jj25.zlib;
 
 import java.io.UnsupportedEncodingException;
 
+@SuppressWarnings("javadoc")
 public class GZIPHeader implements Cloneable {
   boolean text = false;
   private boolean fhcrc = false;

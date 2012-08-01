@@ -1,4 +1,4 @@
-package info.lun4rsoft.jj25.net;
+package info.lun4rsoft.jj25.list;
 
 public enum ListServer24GameMode {
 	//Values ordered in a way that makes the ordinal() function return the correct number for each.

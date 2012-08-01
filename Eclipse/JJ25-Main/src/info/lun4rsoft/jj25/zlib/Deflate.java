@@ -34,6 +34,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 package info.lun4rsoft.jj25.zlib;
 
+@SuppressWarnings("javadoc")
 public 
 final class Deflate implements Cloneable {
 

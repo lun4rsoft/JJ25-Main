@@ -30,6 +30,7 @@ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package info.lun4rsoft.jj25.zlib;
 import java.io.*;
 
+@SuppressWarnings("javadoc")
 public class DeflaterOutputStream extends FilterOutputStream {
 
   protected final Deflater deflater;
